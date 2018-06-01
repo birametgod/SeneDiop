@@ -1,58 +1,67 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  Button
 } from 'react-native';
+import firebase from 'react-native-firebase';
+import Login from './components/login' ; 
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
 
 type Props = {};
 export default class App extends Component<Props> {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null,
+    };
+  }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+      this.setState({ user });
+    });
+  }
+
+  deconnexion () {
+    firebase.auth().signOut()
+      .then((user)=> {
+        console.log(user);
+    })
+      .catch((error)=>{
+        alert(error);
+      })
+  }
+
+  addUser(userNew){
+    this.setState ({user : userNew});
+  }
+
   render() {
+
+    if (!this.state.user) {
+      return <View style = {styles.view}>
+      <Login userAdd = {this.addUser.bind(this)} />
+    </View>;
+    }
+
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+      <View >
+        <Text>Welcome to my awesome app {this.state.user.email}!</Text>
+        <Button onPress = {this.deconnexion} title = "deconnexion" />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
+  view : {
+    flex : 1 ,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+},
 });
