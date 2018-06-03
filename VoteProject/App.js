@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Button
+  Button,
+  Image
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import Login from './components/login' ; 
@@ -43,9 +44,13 @@ export default class App extends Component<Props> {
   render() {
 
     if (!this.state.user) {
-      return <View style = {styles.view}>
-      <Login userAdd = {this.addUser.bind(this)} />
-    </View>;
+      return (
+      <View style = {styles.view}>
+        <View style = {styles.logoContainer}>
+          <Image style = {styles.logo}  source={require('./components/images/diamond.png')} />
+          <Login userAdd = {this.addUser.bind(this)} />
+        </View>
+      </View>);
     }
 
     return (
@@ -63,5 +68,15 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: '#3498db',
 },
+logo : {
+  width : 100 , 
+  height : 100
+},
+logoContainer : {
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexGrow: 1,
+}
 });

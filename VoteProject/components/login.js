@@ -5,8 +5,9 @@ import
     StyleSheet,
     Text,
     TextInput,
-    View
-    ,Button
+    View,
+    Button,
+    TouchableOpacity
 }
 from 'react-native';
 import firebase from 'react-native-firebase';
@@ -49,21 +50,26 @@ export default class Login extends Component {
         return (
             <View style={styl.container} >
                 <TextInput underlineColorAndroid='transparent'
-                    style = {styl.txt} placeholder = "Entrez Votre Email "
+                    placeholderTextColor= "rgba(255,255,255,0.7)"
+                    style = {styl.txt} placeholder = " Email "
                     keyboardType = "email-address"
                     onChangeText = {(text) => this.setState({ email : text })} />
 
                 <TextInput underlineColorAndroid='transparent'
-                    style = {styl.txt} placeholder = "Entrez Votre Mot de passe "
+                    placeholderTextColor= "rgba(255,255,255,0.7)"
+                    style = {styl.txt} placeholder = " Mot de passe "
                     secureTextEntry = {true}
                     onChangeText = {(text) => this.setState({ password : text })} />
 
-                <View style = {styl.viewButton}>
-                    <Button  color="#a2273C"  title = "S'inscrire" 
-                        onPress={this.inscrire.bind(this)} />
-                    <Button color="#a2273C"  title = "Se Connecter" 
-                        onPress = {this.connexion.bind(this)} />
-                </View>
+                
+                    <TouchableOpacity  style = {styl.buttonContainer} onPress={this.inscrire.bind(this)}>
+                        <Text style = {styl.buttonText}> S'inscrire</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity placeholderTextColor= "rg" style = {styl.buttonContainer} onPress={this.connexion.bind(this)} >
+                        <Text style = {styl.buttonText}> Se Connecter</Text>
+                    </TouchableOpacity>
+                    
+                
                 
             </View>
         )
@@ -72,20 +78,32 @@ export default class Login extends Component {
 
 const styl = StyleSheet.create({
     container : {
-        marginTop: 20,
+        padding: 20,
+        width : 300,
+    },
+    buttonContainer : {
+        backgroundColor: "#2980B9",
+        paddingVertical: 10,
+        marginBottom: 10,
+    },
+    buttonText : {
+        textAlign : 'center',
+        color : '#FFF' ,
+        fontSize: 20,
+        fontWeight : 'bold',
     },
     txt : {
-        padding: 10,
-        borderColor : 'gray',
-        borderWidth: 1,
-        margin: 10,
-        width : 200,
-        height : 40
+        paddingHorizontal: 10,
+        color : '#FFF' ,
+        marginBottom: 20,
+        height : 40,
+        backgroundColor: 'rgba(255,255,255,0.2)',
     },
     viewButton: {
-        marginTop: 20,
-        flexDirection: 'row',
+        padding: 20,
+        flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
     },
+    
 })
