@@ -27,6 +27,8 @@ export default class App extends Component<Props> {
     });
   }
 
+  
+
   deconnexion () {
     firebase.auth().signOut()
       .then((user)=> {
@@ -52,7 +54,6 @@ export default class App extends Component<Props> {
         </View>
       </View>);
     }
-
     return (
       <View >
         <Text>Welcome to my awesome app {this.state.user.email}!</Text>
