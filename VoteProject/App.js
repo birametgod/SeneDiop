@@ -7,66 +7,53 @@ import {
   Button,
   Image
 } from 'react-native';
+import {StackNavigator} from 'react-navigation';
 import firebase from 'react-native-firebase';
-import Login from './components/login' ; 
+import Login from './components/login' ;
+import Loading from './components/loading' ;
+import Main from './components/main' ;
+import SignUp from './components/signup' ;  
 
 
-type Props = {};
-export default class App extends Component<Props> {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: null,
-    };
-  }
-
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged((user) => {
-      this.setState({ user });
-    });
-  }
-
-  
-
-  deconnexion () {
-    firebase.auth().signOut()
-      .then((user)=> {
-        console.log(user);
-    })
-      .catch((error)=>{
-        alert(error);
-      })
-  }
-
-  addUser(userNew){
-    this.setState ({user : userNew});
-  }
-
-  render() {
-
-    if (!this.state.user) {
-      return (
-      <View style = {styles.view}>
-        <View style = {styles.logoContainer}>
-          <Image style = {styles.logo}  source={require('./components/images/diamond.png')} />
-          <Login userAdd = {this.addUser.bind(this)} />
-        </View>
-      </View>);
-    }
-    return (
-      <View >
-        <Text>Welcome to my awesome app {this.state.user.email}!</Text>
-        <Button onPress = {this.deconnexion} title = "deconnexion" />
-      </View>
-    );
-  }
+class App extends Component {
 }
+
+export default StackNavigator({
+      Load: {
+          screen: Loading
+      },
+      Log : {
+          screen : Login
+      },
+      Sign : {
+        screen : SignUp
+      },
+      main : {
+        screen : Main
+    }
+  },
+  {
+    initialRouteName : 'Load' , 
+    
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#3498db',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      header : null
+    },
+  },
+  
+)
 
 const styles = StyleSheet.create({
   view : {
     flex : 1 ,
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#3498db',

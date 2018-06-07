@@ -7,15 +7,16 @@ import
     TextInput,
     View,
     Button,
-    TouchableOpacity
+    TouchableOpacity,
+    Image,
 }
 from 'react-native';
 import firebase from 'react-native-firebase';
-import FBLoginButton from "./fbLoggin";
 import {AccessToken, LoginManager, LoginButton} from 'react-native-fbsdk';
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
 export default class Login extends Component {
+
 
     constructor(props) {
         super(props);
@@ -33,7 +34,7 @@ export default class Login extends Component {
                 GoogleSignin
                     .currentUserAsync()
                     .then((user) => {
-                        this.props.userAdd(user);
+                        console.log(user);
                     })
                     .done();
             });
@@ -45,45 +46,12 @@ export default class Login extends Component {
         firebase
             .auth()
             .signInAndRetrieveDataWithEmailAndPassword(email, password)
-            .then((user) => {
-                console.log(user);
+            .then(() => {
+                this.props.navigation.navigate('main');
             })
             .catch((error) => {
                 alert(error);
             })
-    }
-
-    signIn() {
-        GoogleSignin
-            .signIn()
-            .then((user) => {
-                this
-                    .props
-                    .userAdd(user);
-                console.log(user);
-            })
-            .catch((err) => {
-                console.log('WRONG SIGNIN', err);
-            })
-            .done();
-    }
-
-    inscrire() {
-        const email = this.state.email;
-        const password = this.state.password;
-        firebase
-            .auth()
-            .createUserAndRetrieveDataWithEmailAndPassword(email, password)
-            .then((user) => {
-                this
-                    .props
-                    .userAdd(user);
-                console.log(user);
-            })
-            .catch((error) => {
-                console.log('erreur' + error);
-                alert(error);
-            });
     }
 
     googleConnexion = () => {
@@ -100,8 +68,8 @@ export default class Login extends Component {
                     .auth()
                     .signInAndRetrieveDataWithCredential(credential);
             })
-            .then((currentUser) => {
-                console.info(JSON.stringify(currentUser.user.toJSON()))
+            .then(() => {
+                this.props.navigation.navigate('main');
             })
             .catch((error) => {
                 alert(error);
@@ -133,7 +101,8 @@ export default class Login extends Component {
                     .auth()
                     .signInAndRetrieveDataWithCredential(credential);
             })
-            .then((currentUser) => {
+            .then(() => {
+                this.props.navigation.navigate('main');
                 console.info(JSON.stringify(currentUser.user.toJSON()))
             })
             .catch((error) => {
@@ -144,6 +113,8 @@ export default class Login extends Component {
     render() {
         return (
             <View style={styl.container}>
+                <View style = {styl.view}>
+                <Image style = {styl.logo}  source={require('./images/diamond.png')} />
                 <TextInput
                     underlineColorAndroid='transparent'
                     placeholderTextColor="rgba(255,255,255,0.7)"
@@ -164,9 +135,7 @@ export default class Login extends Component {
 
                 <TouchableOpacity
                     style={styl.buttonContainer}
-                    onPress={this
-                    .inscrire
-                    .bind(this)}>
+                    onPress={() => this.props.navigation.navigate('Sign')}>
                     <Text style={styl.buttonText}>
                         Inscription
                     </Text>
@@ -205,7 +174,7 @@ export default class Login extends Component {
                     onPress={this
                     .googleConnexion
                     .bind(this)}/>
-
+                </View>
             </View>
         )
     };
@@ -213,17 +182,22 @@ export default class Login extends Component {
 
 const styl = StyleSheet.create({
     container: {
-        padding: 20,
-        width: 300
+        backgroundColor:"#3498db" ,
+        flex:1,
+    },
+    view : {
+        alignItems: 'center',
     },
     buttonContainer: {
         backgroundColor: "#2980B9",
         paddingVertical: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        width : 300
     },
     buttonContainerFb: {
         paddingVertical: 20,
-        marginBottom: 10
+        marginBottom: 10,
+        width : 300
     },
     buttonText: {
         textAlign: 'center',
@@ -234,6 +208,7 @@ const styl = StyleSheet.create({
     txt: {
         paddingHorizontal: 10,
         color: '#FFF',
+        width : 300,
         marginBottom: 20,
         height: 40,
         backgroundColor: 'rgba(255,255,255,0.2)'
@@ -243,5 +218,9 @@ const styl = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center'
-    }
+    },
+    logo : {
+        width : 100 , 
+        height : 100
+    },
 })
