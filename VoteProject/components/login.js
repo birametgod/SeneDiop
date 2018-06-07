@@ -114,7 +114,7 @@ export default class Login extends Component {
         return (
             <View style={styl.container}>
                 <View style = {styl.view}>
-                <Image style = {styl.logo}  source={require('./images/diamond.png')} />
+                <Image style = {styl.logo}  source={require('./images/vote.png')} />
                 <TextInput
                     underlineColorAndroid='transparent'
                     placeholderTextColor="rgba(255,255,255,0.7)"
@@ -191,12 +191,12 @@ const styl = StyleSheet.create({
     buttonContainer: {
         backgroundColor: "#2980B9",
         paddingVertical: 10,
-        marginBottom: 10,
+        marginBottom: 20,
         width : 300
     },
     buttonContainerFb: {
         paddingVertical: 20,
-        marginBottom: 10,
+        marginBottom: 20,
         width : 300
     },
     buttonText: {
@@ -209,7 +209,7 @@ const styl = StyleSheet.create({
         paddingHorizontal: 10,
         color: '#FFF',
         width : 300,
-        marginBottom: 20,
+        marginBottom: 30,
         height: 40,
         backgroundColor: 'rgba(255,255,255,0.2)'
     },
@@ -221,6 +221,8 @@ const styl = StyleSheet.create({
     },
     logo : {
         width : 100 , 
-        height : 100
+        height : 100,
+        marginTop: 50,
+        marginBottom: 20,
     },
 })

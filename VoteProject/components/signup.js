@@ -41,7 +41,7 @@ export default class SignUp extends Component {
         return (
             <View style={styl.container}>
                 <View style = {styl.view}>
-                <Image style = {styl.logo}  source={require('./images/diamond.png')} />
+                <Image style = {styl.logo}  source={require('./images/vote.png')} />
                         <TextInput
                             underlineColorAndroid='transparent'
                             placeholderTextColor="rgba(255,255,255,0.7)"
@@ -116,6 +116,8 @@ const styl = StyleSheet.create({
     },
     logo : {
         width : 100 , 
-        height : 100
+        height : 100,
+        marginTop: 50,
+        marginBottom: 20,
     },
 })
