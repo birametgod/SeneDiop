@@ -13,6 +13,7 @@ import Login from './components/login' ;
 import Loading from './components/loading' ;
 import Main from './components/main' ;
 import SignUp from './components/signup' ;  
+import Soumission from './components/soumission';
 
 
 
@@ -31,6 +32,8 @@ export default StackNavigator({
       },
       main : {
         screen : Main
+    },soumission : {
+      screen : Soumission
     }
   },
   {

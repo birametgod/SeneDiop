@@ -18,17 +18,21 @@ export default class SignUp extends Component {
         super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            username : ''
         }
     }
 
     inscrire() {
         const email = this.state.email;
         const password = this.state.password;
+        const userN = this.state.username ;
+
         firebase
             .auth()
             .createUserAndRetrieveDataWithEmailAndPassword(email, password)
-            .then(() => {
+            .then((user) => {
+                user.user.displayName = userN ;
                 this.props.navigation.navigate('main');
             })
             .catch((error) => {
@@ -59,6 +63,15 @@ export default class SignUp extends Component {
                             secureTextEntry={true}
                             onChangeText=
                             {(text) => this.setState({ password : text })}/>
+
+                            <TextInput
+                            underlineColorAndroid='transparent'
+                            placeholderTextColor="rgba(255,255,255,0.7)"
+                            style={styl.txt}
+                            placeholder="Username"
+                            secureTextEntry={true}
+                            onChangeText=
+                            {(text) => this.setState({ username : text })}/>
 
                         <TouchableOpacity
                             style={styl.buttonContainer}

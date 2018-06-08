@@ -31,7 +31,8 @@ export default class Main extends React.Component {
         super(props);
         this.state = {
             currentUser: null,
-            name : "",
+            name : "" ,
+            email : ""
         }
     }
 
@@ -51,11 +52,10 @@ export default class Main extends React.Component {
         const {currentUser} = firebase.auth();
         this.setState({currentUser});
         this.setState({name : currentUser.displayName}) ;
+        this.setState({email : currentUser.email}) ;
     }
-
+    
     render() {
-
-        
         return (
 
             <Container>
@@ -67,7 +67,7 @@ export default class Main extends React.Component {
                         <Button transparent>
                             <Icon name='navigate'/>
                         </Button>
-                        <Button transparent>
+                        <Button transparent onPress = {()=> this.props.navigation.navigate('soumission',{name : this.state.name})} >
                             <Icon name="chatbubbles"/>
                         </Button>
                         <Button transparent onPress = {()=> this.deconnexion()} >
