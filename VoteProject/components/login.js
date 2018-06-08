@@ -9,6 +9,7 @@ import
     Button,
     TouchableOpacity,
     Image,
+    ActivityIndicator
 }
 from 'react-native';
 import firebase from 'react-native-firebase';
@@ -25,6 +26,8 @@ export default class Login extends Component {
             password: ''
         }
     }
+
+   
 
     componentDidMount() {
         GoogleSignin
@@ -43,6 +46,7 @@ export default class Login extends Component {
     connexion() {
         const email = this.state.email;
         const password = this.state.password;
+        
         firebase
             .auth()
             .signInAndRetrieveDataWithEmailAndPassword(email, password)
