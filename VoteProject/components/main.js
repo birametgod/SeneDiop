@@ -32,6 +32,7 @@ export default class Main extends React.Component {
         this.state = {
             currentUser: null,
             name : '' ,
+            sujet : []
         }
     }
 
