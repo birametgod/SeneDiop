@@ -32,16 +32,38 @@ export default class Soumission extends Component {
         this.state = {
             titre: '',
             description : '',
+            currentUser : '',
+            nameUser : '',
         }
+    }
+
+    componentDidMount() {
+        const {currentUser} = firebase.auth();
+        this.setState({currentUser : currentUser.uid});
+        this.setState({nameUser : currentUser.displayName});
+    
+    }
+
+    deconnexion() {
+        firebase
+            .auth()
+            .signOut()
+            .then((user) => {
+                console.log(user);
+            })
+            .catch((error) => {
+                alert(error);
+            })
     }
 
     onValidate(){
         let {titre , description } = this.state ;
 
-        firebase.database().ref('Personne').push({
+        firebase.database().ref('Sujet/'+this.state.currentUser).push({
+            name : this.props.navigation.state.params.name,
             titre : titre , 
             description : description , 
-            Date : new Date()
+            Date : new Date(),
         })
         .then((success) => {
             this.setState({description : ""});

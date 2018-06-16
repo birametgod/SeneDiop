@@ -31,8 +31,7 @@ export default class Main extends React.Component {
         super(props);
         this.state = {
             currentUser: null,
-            name : "" ,
-            email : ""
+            name : '' ,
         }
     }
 
@@ -52,7 +51,11 @@ export default class Main extends React.Component {
         const {currentUser} = firebase.auth();
         this.setState({currentUser});
         this.setState({name : currentUser.displayName}) ;
-        this.setState({email : currentUser.email}) ;
+        firebase.database().ref("/Sujet/"+currentUser.uid).on('value' , (nom)=>{
+            if (nom.val()) {
+                this.setState({name : nom.val().name}) ;
+            }
+        });
     }
     
     render() {
