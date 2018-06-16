@@ -32,7 +32,9 @@ export default class Main extends React.Component {
         this.state = {
             currentUser: null,
             name : '' ,
-            sujet : []
+            sujet : [],
+            name : "" ,
+            email : ""
         }
     }
 
@@ -57,6 +59,7 @@ export default class Main extends React.Component {
                 this.setState({name : nom.val().name}) ;
             }
         });
+        this.setState({email : currentUser.email}) ;
     }
     
     render() {

@@ -9,7 +9,9 @@ import
     Button,
     TouchableOpacity,
     Image,
-    ActivityIndicator
+    ActivityIndicator,
+    ImageBackground,
+    StatusBar
 }
 from 'react-native';
 import firebase from 'react-native-firebase';
@@ -116,9 +118,11 @@ export default class Login extends Component {
 
     render() {
         return (
+            <ImageBackground source={require('./images/bg4.jpg')} style={styl.backgroundImage}>
+                < StatusBar backgroundColor= "#00b894" / >
             <View style={styl.container}>
                 <View style = {styl.view}>
-                <Image style = {styl.logo}  source={require('./images/vote.png')} />
+                <Image style = {styl.logo}  source={require('./images/review.png')} />
                 <TextInput
                     underlineColorAndroid='transparent'
                     placeholderTextColor="rgba(255,255,255,0.7)"
@@ -138,21 +142,23 @@ export default class Login extends Component {
                     {(text) => this.setState({ password : text })}/>
 
                 <TouchableOpacity
-                    style={styl.buttonContainer}
-                    onPress={() => this.props.navigation.navigate('Sign')}>
-                    <Text style={styl.buttonText}>
-                        Inscription
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
                     placeholderTextColor="rg"
                     style={styl.buttonContainer}
                     onPress={this
                     .connexion
                     .bind(this)}>
                     <Text style={styl.buttonText}>
-                        connexion</Text>
+                        Connexion</Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styl.buttonContainer}
+                    onPress={() => this.props.navigation.navigate('Sign')}>
+                    <Text style={styl.buttonText}>
+                        Inscription
+                    </Text>
+                </TouchableOpacity>
+                
                 <LoginButton
                     publishPermissions={["publish_actions"]}
                     onLoginFinished={(error, result) => {
@@ -179,35 +185,35 @@ export default class Login extends Component {
                     .googleConnexion
                     .bind(this)}/>
                 </View>
-            </View>
+                </View>
+            </ImageBackground>
         )
     };
 }
 
 const styl = StyleSheet.create({
     container: {
-        backgroundColor:"#3498db" ,
-        flex:1,
     },
     view : {
         alignItems: 'center',
     },
     buttonContainer: {
-        backgroundColor: "#2980B9",
+        backgroundColor: "rgba(0,0,0,0.1)",
         paddingVertical: 10,
         marginBottom: 20,
-        width : 300
+        width : 300,
+        borderRadius: 30,
     },
     buttonContainerFb: {
         paddingVertical: 20,
         marginBottom: 20,
-        width : 300
+        width : 300,
     },
     buttonText: {
         textAlign: 'center',
         color: '#FFF',
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     txt: {
         paddingHorizontal: 10,
@@ -215,7 +221,9 @@ const styl = StyleSheet.create({
         width : 300,
         marginBottom: 30,
         height: 40,
-        backgroundColor: 'rgba(255,255,255,0.2)'
+        backgroundColor: 'rgba(255,255,255,0.2)',
+        borderRadius: 30,
+        paddingLeft: 20,
     },
     viewButton: {
         padding: 20,
@@ -228,5 +236,8 @@ const styl = StyleSheet.create({
         height : 100,
         marginTop: 50,
         marginBottom: 20,
+    },
+    backgroundImage:{
+        flex: 1,
     },
 })

@@ -5,16 +5,27 @@ import
     View,
     Text,
     StyleSheet,
+    Image    
 } 
 from "react-native";
 import firebase from 'react-native-firebase';
 
 export default class Loading extends Component {
-
+    
     constructor(props) {
         super(props);
+        this.state = {
+            showME : true
+        }
     }
 
+    componentWillMount() {
+         setTimeout(() => {
+             this.setState({
+                 showME: false
+             })
+         }, 3000);
+    }
 
     componentDidMount() {
         firebase.auth().onAuthStateChanged((user) => {
@@ -26,8 +37,16 @@ export default class Loading extends Component {
     render() {
         return (
             <View style = {styles.container}>
-                <Text> Loading</Text>
-                <ActivityIndicator size="large"/>
+                {
+                    this.state.showME ?
+                    < Image style = {styles.logo} source = {require('./images/review.png')}/>
+                    :
+                    <View>
+                        <ActivityIndicator />
+                    </View>
+                }
+                
+                
             </View>
         )
     };

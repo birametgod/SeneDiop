@@ -75,6 +75,8 @@ export default class Soumission extends Component {
 
     }
 
+    
+
     render() {
         return (
             <Container>
@@ -114,9 +116,8 @@ export default class Soumission extends Component {
                     </Button>
                 </Content>
             </Container>
-        )
-    };
-}
+        )}
+    }
 
 const styles = StyleSheet.create({
     container: {

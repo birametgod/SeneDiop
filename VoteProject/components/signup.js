@@ -33,6 +33,7 @@ export default class SignUp extends Component {
             .createUserAndRetrieveDataWithEmailAndPassword(email, password)
             .then((user) => {
                 firebase.database().ref(`Sujet/${user.user.uid}`).set({name: userN});
+                user.user.displayName = userN ;
                 this.props.navigation.navigate('main');
             })
             .catch((error) => {
