@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Platform, Image, Text, View} from 'react-native';
+import {StyleSheet, Platform, Image, Text, View , ToastAndroid} from 'react-native';
 import {StackNavigator} from "react-navigation";
 import firebase from 'react-native-firebase';
 import
@@ -35,6 +35,24 @@ export default class Soumission extends Component {
         }
     }
 
+    onValidate(){
+        let {titre , description } = this.state ;
+
+        firebase.database().ref('Personne').push({
+            titre : titre , 
+            description : description , 
+            Date : new Date()
+        })
+        .then((success) => {
+            this.setState({description : ""});
+            ToastAndroid.show('Sujet envoyé', ToastAndroid.SHORT);
+        })
+        .catch((error) => {
+            alert(error);
+        })
+
+    }
+
     render() {
         return (
             <Container>
@@ -67,7 +85,9 @@ export default class Soumission extends Component {
                             <Textarea rowSpan={5} bordered placeholder="Description" onChangeText = {(text)=>this.setState({description : text})} />
                         </Form>
                     </Content>
-                    <Button block success>
+                    <Button block success 
+                        onPress = {
+                            this.onValidate.bind(this)}>
                         <Text>Valider</Text>
                     </Button>
                 </Content>
