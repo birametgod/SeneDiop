@@ -2,10 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-<<<<<<< HEAD
-        <!-- Customize your theme here. -->
-=======
->>>>>>> origin/diop
     </style>
 
 </resources>

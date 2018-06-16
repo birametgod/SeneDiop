@@ -21,13 +21,8 @@ class App extends Component {
 }
 
 export default StackNavigator({
-<<<<<<< HEAD
-      Load: {
-          screen: Loading
-=======
       Load : {
         screen : Loading
->>>>>>> origin/diop
       },
       Log : {
           screen : Login
