@@ -20,11 +20,11 @@ export default class Loading extends Component {
     }
 
     componentWillMount() {
-         setTimeout(() => {
-             this.setState({
-                 showME: false
-             })
-         }, 3000);
+        setTimeout(() => {
+            this.setState({
+                showME: false
+            })
+        }, 6000);
     }
 
     componentDidMount() {

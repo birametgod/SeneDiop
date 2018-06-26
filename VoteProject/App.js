@@ -14,6 +14,7 @@ import Loading from './components/loading' ;
 import Main from './components/main' ;
 import SignUp from './components/signup' ;  
 import Soumission from './components/soumission';
+import Sujet from './components/mes_sujets';
 
 
 
@@ -34,7 +35,10 @@ export default StackNavigator({
         screen : Main
     },soumission : {
       screen : Soumission
+    },profil : {
+      screen : Sujet
     }
+
   },
   {
     initialRouteName : 'Load' , 

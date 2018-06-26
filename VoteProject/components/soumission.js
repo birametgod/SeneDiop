@@ -58,16 +58,27 @@ export default class Soumission extends Component {
 
     onValidate(){
         let {titre , description } = this.state ;
-
-        firebase.database().ref('Sujet/'+this.state.currentUser).push({
+        var postData = {
             name : this.props.navigation.state.params.name,
             titre : titre , 
             description : description , 
             Date : new Date(),
-        })
+        }
+        // Get a key for a new Post.
+        var newPostKey = firebase.database().ref().child('posts').push().key;
+
+        // Write the new post's data simultaneously in the posts list and the user's post list.
+        var updates = {};
+        updates['/posts/' + newPostKey] = postData;
+        updates['/Sujet/' + this.state.currentUser + '/' + newPostKey] = postData;
+
+        //return firebase.database().ref().update(updates);
+
+        firebase.database().ref().update(updates)
         .then((success) => {
             this.setState({description : ""});
             ToastAndroid.show('Sujet envoyé', ToastAndroid.SHORT);
+            this.props.navigation.navigate('main',{name : this.state.name})
         })
         .catch((error) => {
             alert(error);
