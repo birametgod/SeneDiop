@@ -78,7 +78,7 @@ export default class Soumission extends Component {
         .then((success) => {
             this.setState({description : ""});
             ToastAndroid.show('Sujet envoyé', ToastAndroid.SHORT);
-            this.props.navigation.navigate('main',{name : this.state.name})
+            this.props.navigation.navigate('main');
         })
         .catch((error) => {
             alert(error);

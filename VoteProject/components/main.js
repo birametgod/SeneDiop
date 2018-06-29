@@ -32,7 +32,9 @@ export default class Main extends React.Component {
             sujet: [],
             currentUser: null,
             name: '',
-            email: ""
+            email: '',
+            likes: 0,
+            unlikes: 0,
         }
     }
 
@@ -47,8 +49,64 @@ export default class Main extends React.Component {
                 alert(error);
             })
     }
+    decIncreaseValue(Boolean,key,index){
+        Boolean ? this.increaseValue(key,index) : this.decreaseValue(key,index);
+        
+    }
 
-    
+    increaseValue(key,index){
+        let like = this.state.likes;
+        let subjects = this.state.sujet ; 
+        let subject = subjects[index] ;
+        like++;
+        this.setState({
+            likes : like,
+        })
+        firebase.database().ref('posts/'+key).update({
+            likes : this.state.likes,
+        });
+        firebase
+            .database()
+            .ref('posts/'+key)
+            .on('value', (snapshot) => {
+                if (snapshot.val()) {
+                    subject.like = snapshot.val().likes,
+                    this.setState({sujet: subjects});
+                }
+            });
+        
+    }
+
+    decreaseValue(key,index){
+        let unlike = this.state.unlikes;
+        let subjects = this.state.sujet ; 
+        let subject = subjects[index] ;
+        unlike++;
+        this.setState({
+            unlikes : unlike
+        })
+        firebase.database().ref('posts/'+key).update({
+            unlikes : this.state.unlikes
+        });
+        firebase
+            .database()
+            .ref('posts/'+key)
+            .on('value', (snapshot) => {
+                if (snapshot.val()) {
+                    subject.unlike = snapshot.val().unlikes,
+                    this.setState({sujet: subjects});
+                }
+            });
+        
+    }
+
+    onChangeSubject(idx){
+        let subjects = this.state.sujet ; 
+        let subject = subjects[idx] ;
+        subject.like = this.state.likes ; 
+        subject.unlike = this.state.unlikes;
+        this.setState({sujet : subjects})
+    }
 
     componentWillMount() {
         const {currentUser} = firebase.auth();
@@ -69,6 +127,9 @@ export default class Main extends React.Component {
                 if (snapshot.val()) {
                     snapshot.forEach(childSnapshot => {
                         subject.push({
+                            like : childSnapshot.val().likes,
+                            unlike : childSnapshot.val().unlikes,
+                            key : childSnapshot.key,
                             desc: childSnapshot
                                 .val()
                                 .description,
@@ -122,29 +183,31 @@ export default class Main extends React.Component {
                     </Right>
                 </Header>
                 <Content>
-                    <List
-                        dataArray={this.state.sujet}
-                        renderRow=
-                        {(item) => <ListItem avatar> 
+                    <List>
+                        {this.state.sujet.map((item,idx)=>{
+                            return(
+                                <ListItem avatar key={idx}> 
                         <Left>
                             <Thumbnail source={require('./images/vot.png')} /> 
                         </Left>
                         <Body>
-                            <Text>{item.nom}</Text>
+                            <Text>{item.name}</Text>
                             <Text>{item.titre}</Text>
                             <Text note>{item.desc}</Text>
                         </Body>
                         <Right style={styles.cont}>
-                            <Button transparent badge vertical>
-                            <Badge style={{ backgroundColor: '#ff4081' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>2</Text></Badge>
+                            <Button transparent badge vertical onPress ={() => this.decIncreaseValue(true,item.key,idx)}>
+                            <Badge style={{ backgroundColor: '#ff4081' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>{item.like}</Text></Badge>
                             <Icon name = 'heart' style ={styles.icon} />
                             </Button>
-                            <Button transparent badge vertical>
-                            <Badge style={{ backgroundColor: '#212121' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>2</Text></Badge>
+                            <Button transparent badge vertical onPress ={() => this.decIncreaseValue(false,item.key,idx)} >
+                            <Badge style={{ backgroundColor: '#212121' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>{item.unlike}</Text></Badge>
                             <Icon name = 'trash' style ={styles.unlike}  />
                             </Button>
                         </Right> 
-                        </ListItem> }>
+                        </ListItem>
+                            );
+                        })}
                         </List>
                     </Content>
                 </Container>
