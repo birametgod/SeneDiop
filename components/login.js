@@ -188,7 +188,7 @@ export default class Login extends Component {
                     .bind(this)}/>
                 </View>
                 <View style={styl.signupTextCont}>
-                    <Text style={styl.stc}>Copyright Box 4 Vote, © 2018</Text>
+                    <Text style={styl.stc}>Copyright Box 4 Vote, © 2018-</Text>
                 </View>
                 </View>
             </ImageBackground>
