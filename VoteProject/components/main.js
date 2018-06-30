@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Platform, Image, Text, View} from 'react-native';
+import {StyleSheet, Platform, Image, Text, View, FlatList} from 'react-native';
 import {StackNavigator} from "react-navigation";
 import firebase from 'react-native-firebase';
 import
@@ -33,8 +33,6 @@ export default class Main extends React.Component {
             currentUser: null,
             name: '',
             email: '',
-            likes: 0,
-            unlikes: 0,
         }
     }
 
@@ -55,17 +53,16 @@ export default class Main extends React.Component {
     }
 
     increaseValue(key,index){
-        let like = this.state.likes;
         let subjects = this.state.sujet ; 
         let subject = subjects[index] ;
-        like++;
+        subject.like++ ; 
         this.setState({
-            likes : like,
+            sujet : subjects,
         })
         firebase.database().ref('posts/'+key).update({
-            likes : this.state.likes,
+            likes : subject.like
         });
-        firebase
+        /*firebase
             .database()
             .ref('posts/'+key)
             .on('value', (snapshot) => {
@@ -73,22 +70,21 @@ export default class Main extends React.Component {
                     subject.like = snapshot.val().likes,
                     this.setState({sujet: subjects});
                 }
-            });
+            });*/
         
     }
 
     decreaseValue(key,index){
-        let unlike = this.state.unlikes;
         let subjects = this.state.sujet ; 
         let subject = subjects[index] ;
-        unlike++;
+        subject.unlike++;
         this.setState({
-            unlikes : unlike
+            sujet : subjects
         })
         firebase.database().ref('posts/'+key).update({
-            unlikes : this.state.unlikes
+            unlikes : subject.unlike
         });
-        firebase
+        /*firebase
             .database()
             .ref('posts/'+key)
             .on('value', (snapshot) => {
@@ -96,7 +92,7 @@ export default class Main extends React.Component {
                     subject.unlike = snapshot.val().unlikes,
                     this.setState({sujet: subjects});
                 }
-            });
+            });*/
         
     }
 
@@ -183,10 +179,9 @@ export default class Main extends React.Component {
                     </Right>
                 </Header>
                 <Content>
-                    <List>
-                        {this.state.sujet.map((item,idx)=>{
-                            return(
-                                <ListItem avatar key={idx}> 
+                    <List dataArray = {this.state.sujet}
+                        renderRow={(item,sectionId,rowId)=> 
+                            <ListItem avatar > 
                         <Left>
                             <Thumbnail source={require('./images/vot.png')} /> 
                         </Left>
@@ -196,18 +191,16 @@ export default class Main extends React.Component {
                             <Text note>{item.desc}</Text>
                         </Body>
                         <Right style={styles.cont}>
-                            <Button transparent badge vertical onPress ={() => this.decIncreaseValue(true,item.key,idx)}>
+                            <Button transparent badge vertical  >
                             <Badge style={{ backgroundColor: '#ff4081' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>{item.like}</Text></Badge>
-                            <Icon name = 'heart' style ={styles.icon} />
+                            <Icon name = 'heart' style ={styles.icon} onPress ={() => this.decIncreaseValue(true,item.key,rowId)} />
                             </Button>
-                            <Button transparent badge vertical onPress ={() => this.decIncreaseValue(false,item.key,idx)} >
+                            <Button transparent badge vertical onPress ={() => this.decIncreaseValue(false,item.key,rowId)} >
                             <Badge style={{ backgroundColor: '#212121' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>{item.unlike}</Text></Badge>
                             <Icon name = 'trash' style ={styles.unlike}  />
                             </Button>
                         </Right> 
-                        </ListItem>
-                            );
-                        })}
+                        </ListItem>} >
                         </List>
                     </Content>
                 </Container>
