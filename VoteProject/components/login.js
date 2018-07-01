@@ -185,6 +185,9 @@ export default class Login extends Component {
                     .googleConnexion
                     .bind(this)}/>
                 </View>
+                <View style={styl.signupTextCont}>
+                    <Text style={styl.stc}>Copyright Box 4 Vote, © 2018-</Text>
+                </View>
                 </View>
             </ImageBackground>
         )
