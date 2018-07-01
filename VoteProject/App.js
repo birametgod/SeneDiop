@@ -5,7 +5,7 @@ import {
   Text,
   View,
   Button,
-  Image
+  Image,
 } from 'react-native';
 import {StackNavigator} from 'react-navigation';
 import firebase from 'react-native-firebase';
