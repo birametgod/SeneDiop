@@ -70,14 +70,14 @@ export default class Sujet extends Component {
             <Container>
                 <Header style = {styles.headerColor} >
                     <Body>
-                        <Title></Title>
+                        <Title>Mes sujets</Title>
                     </Body>
                     <Right>
                         <Button transparent>
-                            <Icon name='navigate'/>
+                            <Icon name='chatbubbles'/>
                         </Button>
                         <Button transparent onPress = {()=> this.props.navigation.navigate('soumission',{name : this.state.name})} >
-                            <Icon name="chatbubbles"/>
+                            <Icon name="color-filter"/>
                         </Button>
                         <Button transparent onPress = {()=> this.deconnexion()} >
                             <Icon name='close'  />
@@ -88,12 +88,20 @@ export default class Sujet extends Component {
                 <List dataArray={this.state.sujet}
                     renderRow={(item) =>
               <ListItem>
-                <Text>{item.desc}</Text>  
                 
+                    <Thumbnail  /> 
+                        <Image source={require('./images/review1.png')} />
+                    <Thumbnail />
+                
+                    <Text style={styles.desc}>{item.desc}</Text>  
+              
               </ListItem>
             }>
           </List>
         </Content>
+        <View style={styles.signupTextCont}>
+            <Text style={styles.stc}>Copyright Box 4 Vote, © 2018</Text>
+        </View>
             </Container>
                 
         )
@@ -118,6 +126,20 @@ const styles = StyleSheet.create({
         fontSize: 40,
     },
     headerColor:{
-        backgroundColor: '#3498db'
-      },
+        backgroundColor: '#00b894'
+    },
+    signupTextCont:{
+        justifyContent:'flex-end',
+        alignItems:'center',
+        marginVertical:10
+    },
+    stc :{
+        fontSize:12,
+        color: '#2c3e50'
+    },
+    desc:{
+        marginLeft : 20,
+        fontSize : 20
+    }
 })
+

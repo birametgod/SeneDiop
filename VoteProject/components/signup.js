@@ -46,7 +46,9 @@ export default class SignUp extends Component {
         return (
             <View style={styl.container}>
                 <View style = {styl.view}>
-                <Image style = {styl.logo}  source={require('./images/vote.png')} />
+                <Image style = {styl.logo}  source={require('./images/review.png')} />
+                        <Text style={styl.txte}>Inscrivez-vous</Text>
+
                         <TextInput
                             underlineColorAndroid='transparent'
                             placeholderTextColor="rgba(255,255,255,0.7)"
@@ -84,6 +86,9 @@ export default class SignUp extends Component {
                             </Text>
                         </TouchableOpacity>
                 </View>
+                 <View style={styl.signupTextCont}>
+                    <Text style={styl.stc}>Copyright Box 4 Vote, © 2018</Text>
+                </View>
             </View>
         )
     };
@@ -91,17 +96,18 @@ export default class SignUp extends Component {
 
 const styl = StyleSheet.create({
     container: {
-        backgroundColor:"#3498db" ,
+        backgroundColor:"#00b894" ,
         flex:1,
     },
     view : {
         alignItems: 'center',
     },
     buttonContainer: {
-        backgroundColor: "#2980B9",
+        backgroundColor: "#16a085",
         paddingVertical: 10,
         marginBottom: 10,
-        width : 300
+        width : 300,
+        borderRadius: 25
     },
     buttonContainerFb: {
         paddingVertical: 20,
@@ -119,8 +125,27 @@ const styl = StyleSheet.create({
         color: '#FFF',
         width : 300,
         marginBottom: 20,
+        paddingLeft: 20,
         height: 40,
-        backgroundColor: 'rgba(255,255,255,0.2)'
+        backgroundColor: 'rgba(255,255,255,0.2)',
+        borderRadius: 25
+    },
+    txte: {
+        color: 'rgba(255,255,255,0.7)',
+        marginVertical: -10,
+        textAlign: 'center',
+        fontSize: 20,
+        marginBottom:60
+    },
+    signupTextCont:{
+        flexGrow:1,
+        justifyContent:'flex-end',
+        alignItems:'center',
+        marginVertical:16
+    },
+    stc :{
+        color: 'rgba(255,255,255,0.4)',
+        fontSize:12
     },
     viewButton: {
         padding: 20,
