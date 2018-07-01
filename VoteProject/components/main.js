@@ -82,6 +82,12 @@ export default class Main extends React.Component {
                     value.id = key
                     array.push(value) ; 
             }
+
+            subjectSorter = (a, b) => {
+                return (a.likes < b.likes) ? 1 : (b.likes < a.likes ? -1 : 0);
+            }
+
+            array.sort(subjectSorter);
             this.setState({subjects : array});
         })
     }
