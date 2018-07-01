@@ -20,7 +20,8 @@ import
     List,
     ListItem,
     Thumbnail,
-    Badge
+    Badge,
+    Ionicons
 }
 from 'native-base';
 
@@ -150,6 +151,7 @@ export default class Main extends React.Component {
             <Container>
                 <Header style={styles.headerColor}>
                     <Body>
+                        <Icon name='person' style={styles.icn}/>
                         <Title>{this.state.name}</Title>
                     </Body>
                     <Right>
@@ -157,13 +159,13 @@ export default class Main extends React.Component {
                             transparent
                             onPress=
                             {()=> this.props.navigation.navigate('profil',{name : this.state.name})}>
-                            <Icon name='navigate'/>
+                            <Icon name='chatbubbles'/>
                         </Button>
                         <Button
                             transparent
                             onPress=
                             {()=> this.props.navigation.navigate('soumission',{name : this.state.name})}>
-                            <Icon name="chatbubbles"/>
+                            <Icon name="color-filter"/>
                         </Button>
                         <Button transparent onPress= {()=> this.deconnexion()}>
                             <Icon name='close'/>
@@ -184,7 +186,7 @@ export default class Main extends React.Component {
                         </Body>
                         <Right style={styles.cont}>
                             <Button transparent badge vertical  >
-                            <Badge style={{ backgroundColor: '#ff4081' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>{item.like}</Text></Badge>
+                            <Badge style={{ backgroundColor: 'red' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>{item.like}</Text></Badge>
                             <Icon name = 'heart' style ={styles.icon} onPress ={() => this.decIncreaseValue(true,item.key,rowId)} />
                             </Button>
                             <Button transparent badge vertical onPress ={() => this.decIncreaseValue(false,item.key,rowId)} >
@@ -195,6 +197,9 @@ export default class Main extends React.Component {
                         </ListItem>} >
                         </List>
                     </Content>
+                    <View style={styles.signupTextCont}>
+                        <Text style={styles.stc}>Copyright Box 4 Vote, © 2018</Text>
+                    </View>
                 </Container>
 
         )
@@ -211,14 +216,27 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     icon: {
-        color: "#ff4081",
-        fontSize: 40
+        color: "red",
+        fontSize: 20
+    },
+    icn: {
+        color: "white",
+        fontSize: 30
     },
     unlike: {
         color: "#212121",
-        fontSize: 40
+        fontSize: 20
     },
     headerColor: {
-        backgroundColor: '#3498db'
-    }
+        backgroundColor: '#00b894'
+    },
+    signupTextCont:{
+        justifyContent:'flex-end',
+        alignItems:'center',
+        marginVertical:10
+    },
+    stc :{
+        fontSize:12,
+        color: '#2c3e50'
+    },
 })

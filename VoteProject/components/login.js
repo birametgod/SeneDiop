@@ -123,6 +123,8 @@ export default class Login extends Component {
             <View style={styl.container}>
                 <View style = {styl.view}>
                 <Image style = {styl.logo}  source={require('./images/review.png')} />
+                <Text style={styl.txte}>Bienvenue sur B4V</Text>
+                
                 <TextInput
                     underlineColorAndroid='transparent'
                     placeholderTextColor="rgba(255,255,255,0.7)"
@@ -205,7 +207,7 @@ const styl = StyleSheet.create({
         paddingVertical: 10,
         marginBottom: 20,
         width : 300,
-        borderRadius: 30,
+        borderRadius: 25,
     },
     buttonContainerFb: {
         paddingVertical: 20,
@@ -225,8 +227,15 @@ const styl = StyleSheet.create({
         marginBottom: 30,
         height: 40,
         backgroundColor: 'rgba(255,255,255,0.2)',
-        borderRadius: 30,
+        borderRadius: 25,
         paddingLeft: 20,
+    },
+    txte: {
+        color: 'rgba(255,255,255,0.7)',
+        marginVertical: -10,
+        textAlign: 'center',
+        fontSize: 20,
+        marginBottom:25
     },
     viewButton: {
         padding: 20,
@@ -237,10 +246,20 @@ const styl = StyleSheet.create({
     logo : {
         width : 100 , 
         height : 100,
-        marginTop: 50,
+        marginTop: 40,
         marginBottom: 20,
     },
     backgroundImage:{
         flex: 1,
     },
+    signupTextCont:{
+        flexGrow:1,
+        justifyContent:'flex-end',
+        alignItems:'center',
+        marginVertical:16
+    },
+    stc :{
+        color: 'rgba(255,255,255,0.4)',
+        fontSize:14
+    }
 })
