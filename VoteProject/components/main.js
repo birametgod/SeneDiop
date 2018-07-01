@@ -118,7 +118,7 @@ export default class Main extends React.Component {
                             <Thumbnail source={require('./images/vot.png')} /> 
                         </Left>
                         <Body>
-
+                            <Text>{item.Date}</Text> 
                             <Text>{item.titre}</Text>
                             <Text>{item.name}</Text>
                             <Text note>{item.description}</Text>
