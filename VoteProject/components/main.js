@@ -24,6 +24,10 @@ import
     Ionicons
 }
 from 'native-base';
+import moment from 'moment';
+import 'moment/locale/fr'
+
+moment.locale('fr');
 
 export default class Main extends React.Component {
 
@@ -118,10 +122,11 @@ export default class Main extends React.Component {
                             <Thumbnail source={require('./images/vot.png')} /> 
                         </Left>
                         <Body>
-                            <Text>{item.Date}</Text> 
-                            <Text>{item.titre}</Text>
-                            <Text> <Icon name='person'/> {item.name}</Text>
-                            <Text note>{item.description}</Text>
+                            
+                            <Text style ={styles.title}>{item.titre}</Text>
+                            <Text style={styles.name} > <Icon name='person'/> {item.name}</Text>
+                            <Text note style ={styles.desc}>{item.description}</Text>
+                            <Text note  style ={styles.Date}>publié le {moment(item.Date).format('dddd')} à {moment(item.Date).format(' h:mm:ss a')}  </Text>
                         </Body>
                         <Right style={styles.cont}>
                             <Button transparent badge vertical  >
@@ -132,7 +137,7 @@ export default class Main extends React.Component {
                             <Badge style={{ backgroundColor: '#212121' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>{item.unlikes}</Text></Badge>
                             <Icon name = 'trash' style ={styles.unlike}  onPress = {()=> this.decreaseVote(rowId , item.id ,item.unlikes)} />
                             </Button>
-                        </Right> 
+                        </Right>
                         </ListItem>
                             }> 
                         </List>
@@ -146,6 +151,25 @@ export default class Main extends React.Component {
     }
 }
 const styles = StyleSheet.create({
+    
+    Date : {
+        fontSize: 12,
+        fontWeight: 'bold',
+        fontStyle: 'italic'
+    },
+    name : {
+        fontSize: 22,
+        fontWeight: 'bold',
+    }, 
+    title : {
+        fontSize: 22,
+        fontWeight: 'bold',
+        color : '#263238',
+    },
+    desc : {
+        fontSize: 15,
+        fontWeight: 'bold',
+    },
     container: {
         flex: 1,
         justifyContent: 'center',
