@@ -53,6 +53,7 @@ export default class Main extends React.Component {
     }
 
     increaseValue(key,index){
+        const sujetFirebase = firebase.database().ref('posts/'+key) ; 
         let subjects = this.state.sujet ; 
         let subject = subjects[index] ;
         subject.like++ ; 
@@ -106,20 +107,16 @@ export default class Main extends React.Component {
 
     componentWillMount() {
         const {currentUser} = firebase.auth();
-        const subject = this.state.sujet;
         this.setState({currentUser});
+        this.setState({name: currentUser.displayName});
+    }
+
+    componentDidMount() {
+        const subject = this.state.sujet;
         firebase
             .database()
             .ref('posts/')
             .on('value', (snapshot) => {
-                /*if (sujet.val()) {
-                this.setState({name : sujet.val().name}) ;
-                //alert(sujet.val().name);
-                sujet.forEach(element => {
-                    alert(element.val().description);
-                });
-            }*/
-
                 if (snapshot.val()) {
                     snapshot.forEach(childSnapshot => {
                         subject.push({
@@ -140,15 +137,10 @@ export default class Main extends React.Component {
                                 .name
                         });
                         this.setState({sujet: subject});
-                        //this.setState({name : childSnapshot.val().name}) ;
                     })
-
                 }
 
             });
-
-        this.setState({name: currentUser.displayName});
-
         //firebase.database().ref("/Sujet/").on('value',(sujet)=>{    alert(sujet); })
     }
 
