@@ -63,6 +63,8 @@ export default class Soumission extends Component {
             titre : titre , 
             description : description , 
             Date : new Date(),
+            likes : 0 , 
+            unlikes : 0,
         }
         // Get a key for a new Post.
         var newPostKey = firebase.database().ref().child('posts').push().key;

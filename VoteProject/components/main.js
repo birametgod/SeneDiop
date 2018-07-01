@@ -29,10 +29,8 @@ export default class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sujet: [],
-            currentUser: null,
-            name: '',
-            email: '',
+            name : '',
+            subjects : [], 
         }
     }
 
@@ -47,104 +45,44 @@ export default class Main extends React.Component {
                 alert(error);
             })
     }
-    decIncreaseValue(Boolean,key,index){
-        Boolean ? this.increaseValue(key,index) : this.decreaseValue(key,index);
-        
+
+    componentWillMount(){
+        const {currentUser} = firebase.auth() ; 
+        const name = currentUser.displayName ; 
+        this.setState({name}) ;
     }
 
-    increaseValue(key,index){
-        const sujetFirebase = firebase.database().ref('posts/'+key) ; 
-        let subjects = this.state.sujet ; 
-        let subject = subjects[index] ;
-        subject.like++ ; 
-        this.setState({
-            sujet : subjects,
-        })
-        firebase.database().ref('posts/'+key).update({
-            likes : subject.like
-        });
-        /*firebase
-            .database()
-            .ref('posts/'+key)
-            .on('value', (snapshot) => {
-                if (snapshot.val()) {
-                    subject.like = snapshot.val().likes,
-                    this.setState({sujet: subjects});
-                }
-            });*/
-        
+    increaseVote(index,key,like){
+        const post = firebase.database().ref('posts/'+key) ; 
+        post.update({ likes : like+1 });
     }
 
-    decreaseValue(key,index){
-        let subjects = this.state.sujet ; 
-        let subject = subjects[index] ;
-        subject.unlike++;
-        this.setState({
-            sujet : subjects
-        })
-        firebase.database().ref('posts/'+key).update({
-            unlikes : subject.unlike
-        });
-        /*firebase
-            .database()
-            .ref('posts/'+key)
-            .on('value', (snapshot) => {
-                if (snapshot.val()) {
-                    subject.unlike = snapshot.val().unlikes,
-                    this.setState({sujet: subjects});
-                }
-            });*/
-        
+    decreaseVote(index,key,unlike){
+        const post = firebase.database().ref('posts/'+key) ; 
+        post.update({ unlikes : unlike+1 });
     }
 
-    onChangeSubject(idx){
-        let subjects = this.state.sujet ; 
-        let subject = subjects[idx] ;
-        subject.like = this.state.likes ; 
-        subject.unlike = this.state.unlikes;
-        this.setState({sujet : subjects})
-    }
-
-    componentWillMount() {
-        const {currentUser} = firebase.auth();
-        this.setState({currentUser});
-        this.setState({name: currentUser.displayName});
-    }
 
     componentDidMount() {
-        const subject = this.state.sujet;
-        firebase
-            .database()
-            .ref('posts/')
-            .on('value', (snapshot) => {
-                if (snapshot.val()) {
-                    snapshot.forEach(childSnapshot => {
-                        subject.push({
-                            like : childSnapshot.val().likes,
-                            unlike : childSnapshot.val().unlikes,
-                            key : childSnapshot.key,
-                            desc: childSnapshot
-                                .val()
-                                .description,
-                            titre: childSnapshot
-                                .val()
-                                .titre,
-                            Date: childSnapshot
-                                .val()
-                                .Date,
-                            nom: childSnapshot
-                                .val()
-                                .name
-                        });
-                        this.setState({sujet: subject});
-                    })
-                }
-
-            });
-        //firebase.database().ref("/Sujet/").on('value',(sujet)=>{    alert(sujet); })
+        const sujets = firebase.database().ref('posts');
+        sujets.on('value',(snapshot)=>{
+            const data = snapshot.val() ;
+            
+            if (data === null) {
+                return array = []
+            }
+            let array = [] ;
+            for (const key of Object.keys(data)) {
+                    let value = data[key];
+                    value.id = key
+                    array.push(value) ; 
+            }
+            this.setState({subjects : array});
+        })
     }
 
     render() {
+        const {subjects} = this.state;
         return (
 
             <Container>
@@ -171,28 +109,31 @@ export default class Main extends React.Component {
                     </Right>
                 </Header>
                 <Content>
-                    <List dataArray = {this.state.sujet}
-                        renderRow={(item,sectionId,rowId)=> 
-                            <ListItem avatar > 
+                    <Text style={styles.title}>Tous les sujets [{subjects.length}]</Text>
+                    <List dataArray = {subjects} 
+                            renderRow = {(item , sectionId , rowId)=> 
+                                <ListItem avatar > 
                         <Left>
                             <Thumbnail source={require('./images/vot.png')} /> 
                         </Left>
                         <Body>
-                            <Text>{item.name}</Text>
+
                             <Text>{item.titre}</Text>
-                            <Text note>{item.desc}</Text>
+                            <Text>{item.name}</Text>
+                            <Text note>{item.description}</Text>
                         </Body>
                         <Right style={styles.cont}>
                             <Button transparent badge vertical  >
-                            <Badge style={{ backgroundColor: '#ff4081' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>{item.like}</Text></Badge>
-                            <Icon name = 'heart' style ={styles.icon} onPress ={() => this.decIncreaseValue(true,item.key,rowId)} />
+                            <Badge style={{ backgroundColor: '#ff4081' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>{item.likes}</Text></Badge>
+                            <Icon name = 'heart' style ={styles.icon} onPress = {()=> this.increaseVote(rowId , item.id ,item.likes)} />
                             </Button>
-                            <Button transparent badge vertical onPress ={() => this.decIncreaseValue(false,item.key,rowId)} >
-                            <Badge style={{ backgroundColor: '#212121' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>{item.unlike}</Text></Badge>
-                            <Icon name = 'trash' style ={styles.unlike}  />
+                            <Button transparent badge vertical  >
+                            <Badge style={{ backgroundColor: '#212121' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>{item.unlikes}</Text></Badge>
+                            <Icon name = 'trash' style ={styles.unlike}  onPress = {()=> this.decreaseVote(rowId , item.id ,item.unlikes)} />
                             </Button>
                         </Right> 
-                        </ListItem>} >
+                        </ListItem>
+                            }> 
                         </List>
                     </Content>
                 </Container>

@@ -32,7 +32,20 @@ export default class Sujet extends Component {
             sujet : [],
         }
     }
+    
+    deconnexion() {
+        firebase
+            .auth()
+            .signOut()
+            .then((user) => {
+                console.log(user);
+            })
+            .catch((error) => {
+                alert(error);
+            })
+    }
 
+    
     componentWillMount(){
         const subject = this.state.sujet ;
         const {currentUser} = firebase.auth();
