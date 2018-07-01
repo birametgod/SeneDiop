@@ -111,7 +111,6 @@ export default class Main extends React.Component {
                     </Right>
                 </Header>
                 <Content>
-                    <Text style={styles.title}>Tous les sujets [{subjects.length}]</Text>
                     <List dataArray = {subjects} 
                             renderRow = {(item , sectionId , rowId)=> 
                                 <ListItem avatar > 
@@ -126,7 +125,7 @@ export default class Main extends React.Component {
                         </Body>
                         <Right style={styles.cont}>
                             <Button transparent badge vertical  >
-                            <Badge style={{ backgroundColor: 'red' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>{item.like}</Text></Badge>
+                            <Badge style={{ backgroundColor: 'red' }}><Text style={{ color: 'white' ,fontWeight:'bold'}}>{item.likes}</Text></Badge>
                             <Icon name = 'heart' style ={styles.icon} onPress = {()=> this.increaseVote(rowId , item.id ,item.likes)} />
                             </Button>
                             <Button transparent badge vertical  >
