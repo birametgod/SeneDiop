@@ -120,7 +120,7 @@ export default class Main extends React.Component {
                         <Body>
                             <Text>{item.Date}</Text> 
                             <Text>{item.titre}</Text>
-                            <Text>{item.name}</Text>
+                            <Text> <Icon name='person'/> {item.name}</Text>
                             <Text note>{item.description}</Text>
                         </Body>
                         <Right style={styles.cont}>
